@@ -1,0 +1,21 @@
+{
+  "name": "rolonbot-discord",
+  "version": "1.0.0",
+  "description": "RolonBot — Discord music bot (Discord.js v14 + Kazagumo/Lavalink + Express bridge)",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "register": "node src/register-commands.js"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "kazagumo": "^3.2.3",
+    "shoukaku": "^4.1.1"
+  }
+}
