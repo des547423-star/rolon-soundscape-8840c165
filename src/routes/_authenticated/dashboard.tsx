@@ -84,4 +84,4 @@ function DashboardLayout() {
   );
 }
 
-export { ListMusic, Settings, BarChart3, Equalizer };
+
