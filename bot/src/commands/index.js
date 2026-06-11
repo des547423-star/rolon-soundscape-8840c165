@@ -20,6 +20,8 @@ const builders = [
   new SlashCommandBuilder().setName("clear").setDescription("Clear queue"),
   new SlashCommandBuilder().setName("ping").setDescription("Latency"),
   new SlashCommandBuilder().setName("invite").setDescription("Invite link"),
+  new SlashCommandBuilder().setName("ai").setDescription("Ask RolonBot AI")
+    .addStringOption((o) => o.setName("prompt").setDescription("Your question").setRequired(true)),
 ];
 
 export const commandJSON = builders.map((b) => b.toJSON());
@@ -30,6 +32,7 @@ export async function handleInteraction(i, kazagumo) {
     switch (i.commandName) {
       case "ping": return i.reply({ content: `Pong! ${i.client.ws.ping}ms`, ephemeral: true });
       case "invite": return i.reply({ content: `https://discord.com/oauth2/authorize?client_id=${process.env.DISCORD_CLIENT_ID}&permissions=274881367040&scope=bot+applications.commands`, ephemeral: true });
+      case "ai": return cmdAI(i);
       case "play": return cmdPlay(i, kazagumo);
       case "pause": return withPlayer(i, kazagumo, (p) => { p.pause(true); i.reply("⏸ Paused"); });
       case "resume": return withPlayer(i, kazagumo, (p) => { p.pause(false); i.reply("▶️ Resumed"); });
