@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TrendingRouteImport } from './routes/trending'
 import { Route as PremiumRouteImport } from './routes/premium'
+import { Route as CustomBotRouteImport } from './routes/custom-bot'
 import { Route as CommandsRouteImport } from './routes/commands'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
@@ -27,6 +28,11 @@ const TrendingRoute = TrendingRouteImport.update({
 const PremiumRoute = PremiumRouteImport.update({
   id: '/premium',
   path: '/premium',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CustomBotRoute = CustomBotRouteImport.update({
+  id: '/custom-bot',
+  path: '/custom-bot',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CommandsRoute = CommandsRouteImport.update({
@@ -70,6 +76,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/commands': typeof CommandsRoute
+  '/custom-bot': typeof CustomBotRoute
   '/premium': typeof PremiumRoute
   '/trending': typeof TrendingRoute
   '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
@@ -80,6 +87,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/commands': typeof CommandsRoute
+  '/custom-bot': typeof CustomBotRoute
   '/premium': typeof PremiumRoute
   '/trending': typeof TrendingRoute
   '/dashboard/$guildId': typeof AuthenticatedDashboardGuildIdRoute
@@ -91,6 +99,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/commands': typeof CommandsRoute
+  '/custom-bot': typeof CustomBotRoute
   '/premium': typeof PremiumRoute
   '/trending': typeof TrendingRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRouteWithChildren
@@ -103,6 +112,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/commands'
+    | '/custom-bot'
     | '/premium'
     | '/trending'
     | '/dashboard'
@@ -113,6 +123,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/commands'
+    | '/custom-bot'
     | '/premium'
     | '/trending'
     | '/dashboard/$guildId'
@@ -123,6 +134,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/commands'
+    | '/custom-bot'
     | '/premium'
     | '/trending'
     | '/_authenticated/dashboard'
@@ -135,6 +147,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   CommandsRoute: typeof CommandsRoute
+  CustomBotRoute: typeof CustomBotRoute
   PremiumRoute: typeof PremiumRoute
   TrendingRoute: typeof TrendingRoute
 }
@@ -153,6 +166,13 @@ declare module '@tanstack/react-router' {
       path: '/premium'
       fullPath: '/premium'
       preLoaderRoute: typeof PremiumRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/custom-bot': {
+      id: '/custom-bot'
+      path: '/custom-bot'
+      fullPath: '/custom-bot'
+      preLoaderRoute: typeof CustomBotRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/commands': {
@@ -239,9 +259,20 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   CommandsRoute: CommandsRoute,
+  CustomBotRoute: CustomBotRoute,
   PremiumRoute: PremiumRoute,
   TrendingRoute: TrendingRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
