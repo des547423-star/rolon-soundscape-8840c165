@@ -114,3 +114,29 @@ function cmdQueue(i, kazagumo) {
   const embed = new EmbedBuilder().setTitle("Queue").setDescription(lines.join("\n") || "Empty").setColor(0xa855f7);
   return i.reply({ embeds: [embed] });
 }
+
+async function cmdAI(i) {
+  const prompt = i.options.getString("prompt", true);
+  await i.deferReply();
+  const key = process.env.LOVABLE_API_KEY;
+  if (!key) return i.editReply("AI is offline (missing LOVABLE_API_KEY).");
+  try {
+    const r = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: { "content-type": "application/json", authorization: `Bearer ${key}` },
+      body: JSON.stringify({
+        model: "google/gemini-2.5-flash",
+        messages: [
+          { role: "system", content: "You are RolonBot AI, a concise Discord music assistant. Reply in under 3 short sentences." },
+          { role: "user", content: prompt },
+        ],
+      }),
+    });
+    const j = await r.json();
+    const text = j.choices?.[0]?.message?.content ?? "…";
+    const embed = new EmbedBuilder().setTitle("🤖 RolonBot AI").setDescription(text.slice(0, 1900)).setColor(0xa855f7);
+    return i.editReply({ embeds: [embed] });
+  } catch (e) {
+    return i.editReply(`AI error: ${e.message}`);
+  }
+}
