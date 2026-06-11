@@ -82,3 +82,29 @@
 .eq-bar:nth-child(2) { animation-delay: 0.15s; }
 .eq-bar:nth-child(3) { animation-delay: 0.3s; }
 .eq-bar:nth-child(4) { animation-delay: 0.45s; }
+
+@keyframes brand-shimmer {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+.brand-shimmer {
+  background: linear-gradient(90deg,
+    oklch(0.75 0.22 305) 0%,
+    oklch(0.8 0.2 240) 25%,
+    oklch(0.95 0.05 280) 50%,
+    oklch(0.8 0.2 240) 75%,
+    oklch(0.75 0.22 305) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: brand-shimmer 6s linear infinite;
+  filter: drop-shadow(0 0 12px oklch(0.7 0.22 305 / 0.35));
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 25px oklch(0.7 0.22 305 / 0.4); }
+  50% { box-shadow: 0 0 45px oklch(0.7 0.22 305 / 0.75); }
+}
+.animate-pulse-glow { animation: pulse-glow 2.5s ease-in-out infinite; }
+
