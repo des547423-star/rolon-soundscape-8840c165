@@ -15,6 +15,9 @@ export function SiteHeader() {
         <nav className="hidden md:flex items-center gap-6 text-sm">
           <Link to="/commands" className="text-muted-foreground hover:text-foreground transition">Commands</Link>
           <Link to="/trending" className="text-muted-foreground hover:text-foreground transition">Trending</Link>
+          <Link to="/custom-bot" className="text-muted-foreground hover:text-foreground transition flex items-center gap-1.5">
+            Custom Bot <span className="text-[9px] font-bold bg-gradient-to-r from-primary to-accent2 text-primary-foreground px-1.5 py-0.5 rounded">NEW</span>
+          </Link>
           <Link to="/premium" className="text-muted-foreground hover:text-foreground transition">Premium</Link>
           <Link to="/dashboard" className="text-muted-foreground hover:text-foreground transition">Dashboard</Link>
         </nav>
