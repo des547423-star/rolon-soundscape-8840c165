@@ -14,7 +14,230 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bot_stats: {
+        Row: {
+          active_players: number
+          key: string
+          servers: number
+          songs_played: number
+          updated_at: string
+          users: number
+        }
+        Insert: {
+          active_players?: number
+          key: string
+          servers?: number
+          songs_played?: number
+          updated_at?: string
+          users?: number
+        }
+        Update: {
+          active_players?: number
+          key?: string
+          servers?: number
+          songs_played?: number
+          updated_at?: string
+          users?: number
+        }
+        Relationships: []
+      }
+      guilds: {
+        Row: {
+          auto_leave: boolean
+          created_at: string
+          default_volume: number
+          dj_role_id: string | null
+          icon_url: string | null
+          id: string
+          member_count: number
+          name: string
+          owner_id: string | null
+          prefix: string
+          premium: boolean
+          songs_played: number
+          updated_at: string
+          vote_skip: boolean
+        }
+        Insert: {
+          auto_leave?: boolean
+          created_at?: string
+          default_volume?: number
+          dj_role_id?: string | null
+          icon_url?: string | null
+          id: string
+          member_count?: number
+          name: string
+          owner_id?: string | null
+          prefix?: string
+          premium?: boolean
+          songs_played?: number
+          updated_at?: string
+          vote_skip?: boolean
+        }
+        Update: {
+          auto_leave?: boolean
+          created_at?: string
+          default_volume?: number
+          dj_role_id?: string | null
+          icon_url?: string | null
+          id?: string
+          member_count?: number
+          name?: string
+          owner_id?: string | null
+          prefix?: string
+          premium?: boolean
+          songs_played?: number
+          updated_at?: string
+          vote_skip?: boolean
+        }
+        Relationships: []
+      }
+      play_history: {
+        Row: {
+          author: string | null
+          guild_id: string
+          id: string
+          played_at: string
+          requester_id: string | null
+          source: string | null
+          thumbnail: string | null
+          title: string
+          url: string | null
+        }
+        Insert: {
+          author?: string | null
+          guild_id: string
+          id?: string
+          played_at?: string
+          requester_id?: string | null
+          source?: string | null
+          thumbnail?: string | null
+          title: string
+          url?: string | null
+        }
+        Update: {
+          author?: string | null
+          guild_id?: string
+          id?: string
+          played_at?: string
+          requester_id?: string | null
+          source?: string | null
+          thumbnail?: string | null
+          title?: string
+          url?: string | null
+        }
+        Relationships: []
+      }
+      premium_subscriptions: {
+        Row: {
+          created_at: string
+          expires_at: string | null
+          id: string
+          plan: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          plan?: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          plan?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          discord_id: string | null
+          id: string
+          updated_at: string
+          username: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          discord_id?: string | null
+          id: string
+          updated_at?: string
+          username?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          discord_id?: string | null
+          id?: string
+          updated_at?: string
+          username?: string | null
+        }
+        Relationships: []
+      }
+      queue_tracks: {
+        Row: {
+          author: string | null
+          created_at: string
+          duration_ms: number
+          guild_id: string
+          id: string
+          is_current: boolean
+          position: number
+          requester_id: string | null
+          requester_name: string | null
+          source: string
+          thumbnail: string | null
+          title: string
+          url: string
+        }
+        Insert: {
+          author?: string | null
+          created_at?: string
+          duration_ms?: number
+          guild_id: string
+          id?: string
+          is_current?: boolean
+          position: number
+          requester_id?: string | null
+          requester_name?: string | null
+          source?: string
+          thumbnail?: string | null
+          title: string
+          url: string
+        }
+        Update: {
+          author?: string | null
+          created_at?: string
+          duration_ms?: number
+          guild_id?: string
+          id?: string
+          is_current?: boolean
+          position?: number
+          requester_id?: string | null
+          requester_name?: string | null
+          source?: string
+          thumbnail?: string | null
+          title?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "queue_tracks_guild_id_fkey"
+            columns: ["guild_id"]
+            isOneToOne: false
+            referencedRelation: "guilds"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
