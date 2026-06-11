@@ -36,11 +36,8 @@ function DashboardLayout() {
   return (
     <div className="min-h-screen flex">
       <aside className="w-72 border-r border-border bg-card/40 backdrop-blur p-4 hidden md:flex flex-col">
-        <Link to="/" className="flex items-center gap-2 mb-6">
-          <div className="size-9 rounded-xl bg-gradient-to-br from-primary to-accent2 grid place-items-center">
-            <Music2 className="size-5 text-primary-foreground" />
-          </div>
-          <span className="font-bold">RolonBot</span>
+        <Link to="/" className="flex items-center gap-2 mb-6 hover:scale-[1.03] transition">
+          <span className="font-extrabold tracking-tight text-xl brand-shimmer">RolonBot</span>
         </Link>
 
         <div className="text-xs uppercase tracking-wider text-muted-foreground mb-2 flex items-center gap-2">
