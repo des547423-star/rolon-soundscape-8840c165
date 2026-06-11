@@ -78,13 +78,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { name: "description", content: "RolonBot is a premium Discord music bot platform offering a complete production-ready ecosystem." },
       { name: "author", content: "Lovable" },
       { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:description", content: "RolonBot is a premium Discord music bot platform offering a complete production-ready ecosystem." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Lovable App" },
+      { name: "twitter:description", content: "RolonBot is a premium Discord music bot platform offering a complete production-ready ecosystem." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/5048c414-9e08-464d-b847-6718eba32ae8/id-preview-9b4f966b--173da6fc-df3c-48aa-96c2-81f29da19bcb.lovable.app-1781174564075.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/5048c414-9e08-464d-b847-6718eba32ae8/id-preview-9b4f966b--173da6fc-df3c-48aa-96c2-81f29da19bcb.lovable.app-1781174564075.png" },
     ],
     links: [
       {
@@ -113,8 +117,6 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
-import { RolonAI } from "@/components/RolonAI";
-
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
@@ -122,7 +124,6 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
-      <RolonAI />
     </QueryClientProvider>
   );
 }
