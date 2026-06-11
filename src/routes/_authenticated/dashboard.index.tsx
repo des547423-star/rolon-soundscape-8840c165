@@ -18,8 +18,28 @@ function DashboardHome() {
 
   return (
     <div className="p-6 md:p-10 max-w-6xl">
+      <div className="flex items-center gap-3 mb-2">
+        <span className="font-extrabold tracking-tight text-2xl brand-shimmer">RolonBot</span>
+        <span className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-widest px-2 py-1 rounded-full border border-primary/40 bg-primary/10 text-primary">
+          <span className="size-1.5 rounded-full bg-primary animate-pulse" /> Active bot
+        </span>
+      </div>
       <h1 className="text-3xl font-bold tracking-tight">Your servers</h1>
       <p className="text-muted-foreground mt-1">Manage music, queues and settings for every server you've added RolonBot to.</p>
+
+      <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3">
+        {[
+          { label: "Servers", value: guilds.data?.length ?? 0 },
+          { label: "Total members", value: (guilds.data ?? []).reduce((a, g) => a + (g.member_count ?? 0), 0) },
+          { label: "Songs played", value: (guilds.data ?? []).reduce((a, g) => a + (g.songs_played ?? 0), 0) },
+          { label: "Active now", value: 0 },
+        ].map((s) => (
+          <Card key={s.label} className="p-4 bg-card/60 border-white/10">
+            <div className="text-2xl font-bold">{formatNumber(s.value)}</div>
+            <div className="text-[10px] uppercase tracking-wider text-muted-foreground mt-1">{s.label}</div>
+          </Card>
+        ))}
+      </div>
 
       <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {guilds.data?.map((g) => (
