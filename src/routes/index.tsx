@@ -4,6 +4,7 @@ import { Music2, Headphones, Zap, Globe2, Sparkles, Shield, Radio, ListMusic } f
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
+import { HeroPlayer } from "@/components/HeroPlayer";
 import { Equalizer } from "@/components/Equalizer";
 import { supabase } from "@/integrations/supabase/client";
 import { formatNumber } from "@/lib/format";
@@ -42,24 +43,28 @@ function Landing() {
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
 
-      <section className="container mx-auto max-w-7xl px-4 pt-20 pb-24 text-center relative">
+      <section className="container mx-auto max-w-7xl px-4 pt-20 pb-16 text-center relative">
         <div className="inline-flex items-center gap-2 text-xs uppercase tracking-widest px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary mb-6">
-          <Equalizer /> Now streaming on {formatNumber(stats.data?.servers ?? 0)} servers
+          <Equalizer /> Streaming on {formatNumber(stats.data?.servers ?? 0)} servers
         </div>
         <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.05]">
-          The <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent2 to-primary">music bot</span>
-          <br /> your Discord deserves.
+          Stream music, control playback,<br />
+          and vibe — <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent2 to-primary">all in Discord</span>.
         </h1>
         <p className="mt-6 text-lg text-muted-foreground max-w-2xl mx-auto">
-          Crystal-clear playback from every major source, a real-time web dashboard, and premium filters — all in one Discord bot.
+          The #1 free Discord music bot — Spotify, YouTube, SoundCloud, premium filters and a real-time web dashboard.
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <Button asChild size="lg" className="bg-gradient-to-r from-primary to-accent2 text-primary-foreground border-0">
-            <a href="https://discord.com/oauth2/authorize" target="_blank" rel="noopener">Add to Discord</a>
+          <Button asChild size="lg" className="bg-gradient-to-r from-primary to-accent2 text-primary-foreground border-0 shadow-[0_0_30px_rgba(168,85,247,0.5)]">
+            <a href="https://discord.com/oauth2/authorize" target="_blank" rel="noopener">Add RolonBot — It's Free</a>
           </Button>
           <Button asChild size="lg" variant="outline">
-            <Link to="/dashboard">Open Dashboard</Link>
+            <a href="https://discord.com" target="_blank" rel="noopener">Support Server</a>
           </Button>
+        </div>
+
+        <div className="mt-14">
+          <HeroPlayer />
         </div>
 
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
@@ -69,12 +74,13 @@ function Landing() {
             { label: "Songs Played", value: stats.data?.songs_played ?? 0 },
             { label: "Active Now", value: stats.data?.active_players ?? 0 },
           ].map((s) => (
-            <Card key={s.label} className="p-4 bg-card/60 backdrop-blur border-border">
+            <Card key={s.label} className="p-4 bg-card/60 backdrop-blur border-white/10">
               <div className="text-2xl font-bold">{formatNumber(Number(s.value))}</div>
               <div className="text-xs uppercase tracking-wider text-muted-foreground mt-1">{s.label}</div>
             </Card>
           ))}
         </div>
+        <p className="mt-3 text-xs text-muted-foreground">Live metrics update as RolonBot is added to more servers.</p>
       </section>
 
       <section className="container mx-auto max-w-7xl px-4 pb-20">

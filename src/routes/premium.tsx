@@ -19,25 +19,40 @@ export const Route = createFileRoute("/premium")({
 
 const TIERS = [
   {
-    name: "Free",
+    name: "Bronze",
     price: "$0",
+    accent: "from-amber-700/40 to-amber-900/20",
+    ring: "border-amber-700/40",
     cta: "Add to Discord",
-    features: ["30+ commands", "Multi-source playback", "Vote-skip & DJ role", "Real-time dashboard (read)", "Community support"],
+    features: ["30+ commands", "YouTube + SoundCloud", "Real-time dashboard", "Community support"],
   },
   {
-    name: "Pro",
-    price: "$4.99",
+    name: "Silver",
+    price: "$3.99",
+    period: "/mo",
+    accent: "from-slate-300/30 to-slate-500/10",
+    ring: "border-slate-400/40",
+    cta: "Go Silver",
+    features: ["Everything in Bronze", "Spotify imports", "Saved playlists", "Synced lyrics", "Faster Lavalink nodes"],
+  },
+  {
+    name: "Gold",
+    price: "$7.99",
     period: "/mo",
     featured: true,
-    cta: "Go Pro",
-    features: ["Everything in Free", "24/7 voice mode", "Premium audio filters (8D, Nightcore, EQ)", "Personal saved playlists", "Synced lyrics", "Priority support"],
+    accent: "from-primary/40 to-accent2/30",
+    ring: "border-primary",
+    cta: "Go Gold",
+    features: ["Everything in Silver", "24/7 voice mode", "Premium filters (8D, Nightcore, EQ)", "Vote-skip overrides", "Priority support"],
   },
   {
-    name: "Studio",
+    name: "Diamond",
     price: "$14.99",
     period: "/mo",
-    cta: "Go Studio",
-    features: ["Everything in Pro", "Unlimited servers", "Custom bot avatar/name", "Lossless audio bitrate", "Web player control + uploads", "Direct dev support"],
+    accent: "from-cyan-300/30 to-blue-500/20",
+    ring: "border-cyan-400/50",
+    cta: "Go Diamond",
+    features: ["Everything in Gold", "Custom bot name + avatar", "Lossless 320kbps", "Web player uploads", "Dedicated instance"],
   },
 ];
 
@@ -45,16 +60,21 @@ function Premium() {
   return (
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
-      <section className="container mx-auto max-w-6xl px-4 py-16 text-center">
+      <section className="container mx-auto max-w-7xl px-4 py-16 text-center">
         <Crown className="size-10 text-primary mx-auto" />
-        <h1 className="text-4xl md:text-6xl font-bold tracking-tight mt-4">Premium music, premium control.</h1>
+        <h1 className="text-4xl md:text-6xl font-bold tracking-tight mt-4">
+          Premium music, <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent2">premium control</span>.
+        </h1>
         <p className="text-muted-foreground mt-3 max-w-xl mx-auto">Cancel anytime. Premium activates instantly across every server you're an admin in.</p>
 
-        <div className="mt-12 grid md:grid-cols-3 gap-4 text-left">
+        <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-4 gap-4 text-left">
           {TIERS.map((t) => (
-            <Card key={t.name} className={`p-6 bg-card/70 relative ${t.featured ? "border-primary shadow-2xl shadow-primary/20 scale-[1.02]" : ""}`}>
+            <Card
+              key={t.name}
+              className={`p-6 relative bg-gradient-to-br ${t.accent} backdrop-blur-xl border ${t.ring} hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300 ${t.featured ? "shadow-2xl shadow-primary/30 lg:scale-[1.03]" : ""}`}
+            >
               {t.featured && (
-                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-primary to-accent2 border-0">
+                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-primary to-accent2 border-0 shadow-[0_0_20px_rgba(168,85,247,0.6)]">
                   <Sparkles className="size-3 mr-1" /> Most Popular
                 </Badge>
               )}
@@ -63,7 +83,10 @@ function Premium() {
                 <span className="text-4xl font-bold">{t.price}</span>
                 {t.period && <span className="text-muted-foreground">{t.period}</span>}
               </div>
-              <Button className={`w-full mt-5 ${t.featured ? "bg-gradient-to-r from-primary to-accent2 text-primary-foreground border-0" : ""}`} variant={t.featured ? "default" : "outline"}>
+              <Button
+                className={`w-full mt-5 ${t.featured ? "bg-gradient-to-r from-primary to-accent2 text-primary-foreground border-0 shadow-[0_0_20px_rgba(168,85,247,0.4)]" : ""}`}
+                variant={t.featured ? "default" : "outline"}
+              >
                 {t.cta}
               </Button>
               <ul className="mt-6 space-y-2 text-sm">

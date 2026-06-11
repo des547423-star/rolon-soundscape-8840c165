@@ -40,27 +40,54 @@ function Trending() {
     refetchInterval: 60_000,
   });
 
+  const podium = (trending.data ?? []).slice(0, 3);
+  const rest = (trending.data ?? []).slice(3);
+  const order = [1, 0, 2]; // silver, gold, bronze visual order
+
   return (
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
       <section className="container mx-auto max-w-5xl px-4 py-12">
         <div className="flex items-center gap-3">
           <TrendingUp className="size-7 text-primary" />
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight">Trending this week</h1>
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight">What the world's listening to</h1>
         </div>
         <p className="text-muted-foreground mt-2">Live aggregate of every RolonBot play in the last 7 days.</p>
 
-        <div className="mt-8 space-y-2">
-          {trending.isLoading && <div className="text-muted-foreground">Loading…</div>}
-          {!trending.isLoading && (trending.data?.length ?? 0) === 0 && (
-            <Card className="p-10 text-center text-muted-foreground bg-card/60">
+        {/* Podium */}
+        <div className="mt-10 grid grid-cols-3 gap-3 items-end max-w-2xl mx-auto">
+          {order.map((idx) => {
+            const t = podium[idx];
+            const heights = ["h-32", "h-44", "h-24"]; // silver / gold / bronze
+            const colors = ["from-slate-300/30 to-slate-500/10 border-slate-400/40", "from-primary/40 to-accent2/30 border-primary shadow-2xl shadow-primary/30", "from-amber-600/30 to-amber-900/10 border-amber-600/40"];
+            const ranks = ["2", "1", "3"];
+            const i = order.indexOf(idx);
+            return (
+              <div key={idx} className="flex flex-col items-center">
+                <div className="size-16 rounded-xl bg-muted overflow-hidden mb-2 border border-white/10">
+                  {t?.thumbnail ? <img src={t.thumbnail} alt="" className="size-full object-cover" /> : <div className="size-full grid place-items-center"><Music2 className="size-6 text-muted-foreground" /></div>}
+                </div>
+                <div className="text-xs font-medium text-center truncate w-full px-1">{t?.title ?? "—"}</div>
+                <div className="text-[10px] text-muted-foreground truncate w-full text-center px-1">{t?.author ?? "No plays yet"}</div>
+                <div className={`mt-3 w-full ${heights[i]} rounded-t-xl bg-gradient-to-b ${colors[i]} border grid place-items-center text-3xl font-bold`}>
+                  {ranks[i]}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="mt-10 space-y-2">
+          {trending.isLoading && <div className="text-muted-foreground text-center">Loading…</div>}
+          {!trending.isLoading && podium.length === 0 && (
+            <Card className="p-10 text-center text-muted-foreground bg-card/60 border-white/10">
               <Music2 className="size-10 mx-auto mb-3 opacity-50" />
-              No plays yet. As servers use RolonBot, trending tracks will appear here in real time.
+              No plays yet — start playing music in Discord servers to appear here.
             </Card>
           )}
-          {trending.data?.map((t, i) => (
-            <Card key={`${t.title}-${i}`} className="p-3 flex items-center gap-4 bg-card/70 hover:border-primary/40 transition">
-              <div className="text-2xl font-bold tabular-nums w-10 text-center text-muted-foreground">{i + 1}</div>
+          {rest.map((t, i) => (
+            <Card key={`${t.title}-${i}`} className="p-3 flex items-center gap-4 bg-card/70 border-white/10 hover:border-primary/40 transition">
+              <div className="text-2xl font-bold tabular-nums w-10 text-center text-muted-foreground">{i + 4}</div>
               <div className="size-12 rounded-md bg-muted overflow-hidden shrink-0">
                 {t.thumbnail ? (
                   <img src={t.thumbnail} alt={t.title} className="w-full h-full object-cover" loading="lazy" />
