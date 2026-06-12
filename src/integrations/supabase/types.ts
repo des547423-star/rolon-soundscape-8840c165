@@ -160,7 +160,11 @@ export type Database = {
           avatar_url: string | null
           created_at: string
           discord_id: string | null
+          discriminator: string | null
+          email: string | null
+          global_name: string | null
           id: string
+          last_sign_in_at: string | null
           updated_at: string
           username: string | null
         }
@@ -168,7 +172,11 @@ export type Database = {
           avatar_url?: string | null
           created_at?: string
           discord_id?: string | null
+          discriminator?: string | null
+          email?: string | null
+          global_name?: string | null
           id: string
+          last_sign_in_at?: string | null
           updated_at?: string
           username?: string | null
         }
@@ -176,7 +184,11 @@ export type Database = {
           avatar_url?: string | null
           created_at?: string
           discord_id?: string | null
+          discriminator?: string | null
+          email?: string | null
+          global_name?: string | null
           id?: string
+          last_sign_in_at?: string | null
           updated_at?: string
           username?: string | null
         }
@@ -237,6 +249,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      user_guilds: {
+        Row: {
+          can_manage: boolean
+          guild_id: string
+          icon: string | null
+          name: string
+          owner: boolean
+          permissions: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          can_manage?: boolean
+          guild_id: string
+          icon?: string | null
+          name: string
+          owner?: boolean
+          permissions?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          can_manage?: boolean
+          guild_id?: string
+          icon?: string | null
+          name?: string
+          owner?: boolean
+          permissions?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
     }
     Views: {
