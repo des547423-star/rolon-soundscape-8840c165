@@ -20,7 +20,7 @@ type DiscordGuild = {
   permissions: string;
 };
 
-function fail(reason: string) {
+function fail(reason: string): never {
   throw redirect({ href: `/auth?error=${encodeURIComponent(reason)}` });
 }
 
