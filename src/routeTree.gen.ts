@@ -16,8 +16,11 @@ import { Route as CommandsRouteImport } from './routes/commands'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthDiscordRouteImport } from './routes/auth.discord'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard.index'
+import { Route as AuthDiscordRedirectRouteImport } from './routes/auth.discord.redirect'
+import { Route as AuthDiscordCompleteRouteImport } from './routes/auth.discord.complete'
 import { Route as AuthenticatedDashboardGuildIdRouteImport } from './routes/_authenticated/dashboard.$guildId'
 
 const TrendingRoute = TrendingRouteImport.update({
@@ -54,6 +57,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthDiscordRoute = AuthDiscordRouteImport.update({
+  id: '/discord',
+  path: '/discord',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -65,6 +73,16 @@ const AuthenticatedDashboardIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedDashboardRoute,
   } as any)
+const AuthDiscordRedirectRoute = AuthDiscordRedirectRouteImport.update({
+  id: '/redirect',
+  path: '/redirect',
+  getParentRoute: () => AuthDiscordRoute,
+} as any)
+const AuthDiscordCompleteRoute = AuthDiscordCompleteRouteImport.update({
+  id: '/complete',
+  path: '/complete',
+  getParentRoute: () => AuthDiscordRoute,
+} as any)
 const AuthenticatedDashboardGuildIdRoute =
   AuthenticatedDashboardGuildIdRouteImport.update({
     id: '/$guildId',
@@ -74,36 +92,45 @@ const AuthenticatedDashboardGuildIdRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/commands': typeof CommandsRoute
   '/custom-bot': typeof CustomBotRoute
   '/premium': typeof PremiumRoute
   '/trending': typeof TrendingRoute
   '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
+  '/auth/discord': typeof AuthDiscordRouteWithChildren
   '/dashboard/$guildId': typeof AuthenticatedDashboardGuildIdRoute
+  '/auth/discord/complete': typeof AuthDiscordCompleteRoute
+  '/auth/discord/redirect': typeof AuthDiscordRedirectRoute
   '/dashboard/': typeof AuthenticatedDashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/commands': typeof CommandsRoute
   '/custom-bot': typeof CustomBotRoute
   '/premium': typeof PremiumRoute
   '/trending': typeof TrendingRoute
+  '/auth/discord': typeof AuthDiscordRouteWithChildren
   '/dashboard/$guildId': typeof AuthenticatedDashboardGuildIdRoute
+  '/auth/discord/complete': typeof AuthDiscordCompleteRoute
+  '/auth/discord/redirect': typeof AuthDiscordRedirectRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/commands': typeof CommandsRoute
   '/custom-bot': typeof CustomBotRoute
   '/premium': typeof PremiumRoute
   '/trending': typeof TrendingRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRouteWithChildren
+  '/auth/discord': typeof AuthDiscordRouteWithChildren
   '/_authenticated/dashboard/$guildId': typeof AuthenticatedDashboardGuildIdRoute
+  '/auth/discord/complete': typeof AuthDiscordCompleteRoute
+  '/auth/discord/redirect': typeof AuthDiscordRedirectRoute
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
 }
 export interface FileRouteTypes {
@@ -116,7 +143,10 @@ export interface FileRouteTypes {
     | '/premium'
     | '/trending'
     | '/dashboard'
+    | '/auth/discord'
     | '/dashboard/$guildId'
+    | '/auth/discord/complete'
+    | '/auth/discord/redirect'
     | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -126,7 +156,10 @@ export interface FileRouteTypes {
     | '/custom-bot'
     | '/premium'
     | '/trending'
+    | '/auth/discord'
     | '/dashboard/$guildId'
+    | '/auth/discord/complete'
+    | '/auth/discord/redirect'
     | '/dashboard'
   id:
     | '__root__'
@@ -138,14 +171,17 @@ export interface FileRouteTypes {
     | '/premium'
     | '/trending'
     | '/_authenticated/dashboard'
+    | '/auth/discord'
     | '/_authenticated/dashboard/$guildId'
+    | '/auth/discord/complete'
+    | '/auth/discord/redirect'
     | '/_authenticated/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
-  AuthRoute: typeof AuthRoute
+  AuthRoute: typeof AuthRouteWithChildren
   CommandsRoute: typeof CommandsRoute
   CustomBotRoute: typeof CustomBotRoute
   PremiumRoute: typeof PremiumRoute
@@ -203,6 +239,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/discord': {
+      id: '/auth/discord'
+      path: '/discord'
+      fullPath: '/auth/discord'
+      preLoaderRoute: typeof AuthDiscordRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -216,6 +259,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/'
       preLoaderRoute: typeof AuthenticatedDashboardIndexRouteImport
       parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/auth/discord/redirect': {
+      id: '/auth/discord/redirect'
+      path: '/redirect'
+      fullPath: '/auth/discord/redirect'
+      preLoaderRoute: typeof AuthDiscordRedirectRouteImport
+      parentRoute: typeof AuthDiscordRoute
+    }
+    '/auth/discord/complete': {
+      id: '/auth/discord/complete'
+      path: '/complete'
+      fullPath: '/auth/discord/complete'
+      preLoaderRoute: typeof AuthDiscordCompleteRouteImport
+      parentRoute: typeof AuthDiscordRoute
     }
     '/_authenticated/dashboard/$guildId': {
       id: '/_authenticated/dashboard/$guildId'
@@ -254,10 +311,34 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface AuthDiscordRouteChildren {
+  AuthDiscordCompleteRoute: typeof AuthDiscordCompleteRoute
+  AuthDiscordRedirectRoute: typeof AuthDiscordRedirectRoute
+}
+
+const AuthDiscordRouteChildren: AuthDiscordRouteChildren = {
+  AuthDiscordCompleteRoute: AuthDiscordCompleteRoute,
+  AuthDiscordRedirectRoute: AuthDiscordRedirectRoute,
+}
+
+const AuthDiscordRouteWithChildren = AuthDiscordRoute._addFileChildren(
+  AuthDiscordRouteChildren,
+)
+
+interface AuthRouteChildren {
+  AuthDiscordRoute: typeof AuthDiscordRouteWithChildren
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthDiscordRoute: AuthDiscordRouteWithChildren,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
-  AuthRoute: AuthRoute,
+  AuthRoute: AuthRouteWithChildren,
   CommandsRoute: CommandsRoute,
   CustomBotRoute: CustomBotRoute,
   PremiumRoute: PremiumRoute,
@@ -266,3 +347,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
